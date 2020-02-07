@@ -5,40 +5,50 @@ const colorPicker = document.getElementById('colorPicker');
 const height = document.getElementById('inputHeight');
 const width = document.getElementById('inputWidth');
 
-// More variables
 const sizePicker = document.getElementById('sizePicker');
 const pixelCanvas = document.getElementById('pixelCanvas');
 
 //============================================================================
 
-// When size is submitted by the user, call makeGrid()
-
+// create the grid according to input vars
 function makeGrid() {
+    // loop through each row from the user input: height
     for (row = 1; row <= height.value; row++) {
+        // create element 'tr'
         const tr = document.createElement('tr');
+        // loop through each column/cell from the user input: width
         for (column = 1; column <= width.value; column++) {
+            // create element 'td'
             const td = document.createElement('td');
+            // add 'td' (a square) to 'tr' (each row)
             tr.appendChild(td);
         };
+        // add 'tr' (each row) to the bottom of the pixelCanvas (bottom of page)
         pixelCanvas.appendChild(tr);
+        // add click listener
         tr.addEventListener('click', respondToTheClick);
     }
 };
 
+// click listener function
 function respondToTheClick(event) {
-    const color = colorPicker.value
-    if (event.target.style.backgroundColor === ''){
+    // get color from picker
+    var color = colorPicker.value
+    // check if listener is in 'td' (each square)
+    if (event.target.tagName === 'TD') {
+        // change color
         event.target.style.backgroundColor = color;
-    } else {
-        event.target.style.backgroundColor = '';
     }
 }
 
 //============================================================================
 
-// When size is submitted by the user, call makeGrid()
+// When user clicks the submit button
 document.addEventListener('submit', function() {
-    event.preventDefault(); // So it doesn't upload stuff
+    // prevents from the default uploading
+    event.preventDefault();
+    // remove the grid if exists
     pixelCanvas.innerHTML = '';
+    // make the grid from the makeGrid function
     makeGrid();
 });
